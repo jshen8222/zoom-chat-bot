@@ -4,7 +4,8 @@ const bodyParser = require('body-parser')
 const request = require('request')
 var mongoose=require('mongoose');
 //var url='mongodb://0.0.0.0:27017/test';
-mongoose.connect('mongodb://0.0.0.0:27017/test');
+var url=process.env.MONGOLAB_URI;
+mongoose.connect(url);
 //const connection = mongoose.createConnection('mongodb://0.0.0.0:27017/test');
 
 const app = express()
@@ -71,7 +72,7 @@ app.post('/unsplash', (req, res) => {
     })*/
 
     UserData.find({}).lean().then(function(docs){
-      console.log(docs.toString);
+      console.log(docs);
     
      if( docs[0].expires_on>(new Date().getTime() / 1000)){
        getPhoto(docs[0].chatbot_token)
